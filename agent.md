@@ -5,6 +5,9 @@ description: >
   Use proactively before every commit to review changes, run and design tests,
   write decision logs, and manage debug assets.
   Delegate to this agent after making code changes and before committing.
+  Also delegate when the user reports a bug or unexpected behavior —
+  this agent has structured debugging methodology and should handle all
+  investigation, diagnosis, and fixing instead of debugging in the main conversation.
 skills:
   - robust-dev
 memory: project

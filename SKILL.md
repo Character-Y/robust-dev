@@ -12,7 +12,7 @@ For design rationale, scenario guidance (greenfield vs brownfield), and known li
 ## The Three Rules
  
 **Rule 1: Every change must pass an end-to-end test before commit.**
-Run the project's e2e test after every code change. Nothing is committed until all tests pass.
+An e2e test must exercise the system through the same interface as the end user. If the user operates via a browser, the e2e test must drive a browser. If the user calls a CLI, the test must invoke the CLI. If the user consumes an API, the test must call the API. A test that bypasses the user's interface (e.g., calling backend APIs directly when the user operates via browser) is an integration test, not e2e — valuable, but insufficient as the gate. Nothing is committed until the e2e test passes.
  
 **Rule 2: When a test fails, debug with the structured workflow and archive all artifacts.**
 Narrow down the problem using archived or newly designed tests, fix it, present the analysis to the developer for approval, then archive everything — diagnostic tests, debug summary, updated index. Every debugging session becomes a reusable asset.
@@ -26,14 +26,16 @@ On activation, check: does this project have asset infrastructure (a conventions
  
 **No (first time)** → Run initialization:
 1. Analyze the project — identify modules, boundaries, core path, config mechanisms, existing conventions
-2. Create an asset directory at the project root. Design the structure based on project needs. What must exist:
+2. **Identify the end user's interface**: Who is the end user? How do they interact with the system? (Browser? CLI? API? Mobile app?) This determines what "e2e" means for this project. Record this in the conventions document.
+3. **Audit existing tests**: Review all existing tests (including those labeled "e2e"). Classify each as unit, integration, or true e2e based on whether it uses the end user's interface. If tests are misclassified, note the gap — don't assume names are accurate.
+4. Create an asset directory at the project root. Design the structure based on project needs. What must exist:
    - A place for e2e and diagnostic tests (separated)
    - A place for test run baselines (successful results) and debug summaries (failure investigations), stored separately
    - A place for decision log entries
-   - A conventions document defining: naming rules, decision log criteria, templates, test commands
+   - A conventions document defining: naming rules, decision log criteria, templates, test commands, **and what constitutes e2e for this project**
    - A master index cataloging all assets for quick lookup
-3. Design the initial e2e test — exercises the core path, uses a small fixture, verifies output is reasonable (not just non-null), runs fast
-4. Initialize the index with the e2e test entry
+5. Design the initial e2e test — exercises the core path through the end user's interface, uses a small fixture, verifies output is reasonable (not just non-null), runs fast
+6. Initialize the index with the e2e test entry
  
 The conventions document is the contract for consistency. It must be fixed after initialization — if AI names and organizes assets differently each session, the archive becomes unsearchable.
  
