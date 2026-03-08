@@ -2,7 +2,7 @@
 name: robust-dev
 description: Bug-free incremental development for human-AI collaborative systems. Enforces mandatory e2e testing, structured debugging with asset archival, and decision logging. Use this when developing, debugging, or maintaining any software project.
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 ---
  
 # Bug-Free Incremental Development
