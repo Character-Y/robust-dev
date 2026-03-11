@@ -1,6 +1,6 @@
 # Bug-Free Incremental Development
 
-A methodology for building and maintaining large software systems through human-AI collaboration, ensuring every commit delivers verified, working code.
+A methodology for building and maintaining large software systems through human-AI collaboration, ensuring every commit delivers a verified, working product from the user's perspective.
 
 ---
 
@@ -8,7 +8,7 @@ A methodology for building and maintaining large software systems through human-
 
 ### 1.1 The Goal
 
-Every code commit in a human-AI collaborative development process should deliver bug-free code, verified by automated tests before submission.
+Every code commit in a human-AI collaborative development process should deliver a bug-free product from the user's perspective, verified by tests that replicate the user's real experience.
 
 ### 1.2 Why This Is Hard
 
@@ -88,6 +88,7 @@ When this methodology is first applied to a project, AI sets up the infrastructu
 Before creating anything, understand the project:
 
 - Identify major modules and their boundaries
+- **Understand the end user's real experience**: Who is the end user? What do they actually do? What input do they provide? What output do they expect? What would make them say "this works" or "this is broken"? This is the foundation for all test design.
 - Identify the core user-facing path (the "happy path" that must always work)
 - Identify configuration mechanisms (env vars, config files, feature flags)
 - Note existing naming patterns and coding conventions
@@ -109,14 +110,14 @@ Why this must be fixed after initialization: if AI names and organizes assets di
 
 ### 4.3 Create the Initial End-to-End Test
 
-Design an e2e test that exercises the project's core path:
+Before writing any test code, revisit the user experience answers from §4.1. Design the test to replicate what a real user would do:
 
-- Uses a known, small test fixture (checked into the repo)
-- Exercises the main pipeline from input to output
-- Verifies output correctness at key checkpoints — not just "did it complete" but "is the output reasonable" (e.g., can distinguish real output from mock/fallback output)
-- Runs fast enough that AI will run it after every change without hesitation
+- Uses representative input that reflects what real users actually provide
+- Exercises the full path the user would experience, with real processing (not mocked)
+- Verifies the output is what a user would expect — not just "did it complete" but "would the user say this works?"
+- Prioritize realism over speed — a slow test that catches real bugs is worth more than a fast test that only catches crashes
 
-For greenfield projects, this test starts minimal and grows with the project. For brownfield projects, this test should cover the most critical user-facing path and may take a session or two to design properly. The test itself is the first and most valuable asset.
+For greenfield projects, this test starts minimal and grows with the project. For brownfield projects, this test should cover the most critical user experience path and may take a session or two to design properly. The test itself is the first and most valuable asset.
 
 ### 4.4 Initialize the Index
 

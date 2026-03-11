@@ -1,6 +1,6 @@
 ---
 name: robust-dev
-description: Bug-free incremental development for human-AI collaborative systems. Enforces mandatory e2e testing, structured debugging with asset archival, and decision logging. Use this when developing, debugging, or maintaining any software project.
+description: Bug-free product delivery for human-AI collaborative systems. Enforces mandatory e2e testing from the user's perspective, structured debugging with asset archival, and decision logging. Use this when developing, debugging, or maintaining any software project.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -12,7 +12,7 @@ For design rationale, scenario guidance (greenfield vs brownfield), and known li
 ## The Three Rules
  
 **Rule 1: Every change must pass an end-to-end test before commit.**
-An e2e test must exercise the system through the same interface as the end user. If the user operates via a browser, the e2e test must drive a browser. If the user calls a CLI, the test must invoke the CLI. If the user consumes an API, the test must call the API. A test that bypasses the user's interface (e.g., calling backend APIs directly when the user operates via browser) is an integration test, not e2e — valuable, but insufficient as the gate. Nothing is committed until the e2e test passes.
+An e2e test must replicate the end user's real experience. Ask: what does the user do? What input do they provide? What do they see? What would make them say "this is broken"? Design the test from those answers. A test that shortcuts any part of the user's real workflow — mock data when users use real data, API calls when users use a browser, toy input when users provide real documents — is an integration test, not e2e — valuable, but insufficient as the gate. Nothing is committed until the e2e test passes.
  
 **Rule 2: When a test fails, debug with the structured workflow and archive all artifacts.**
 Narrow down the problem using archived or newly designed tests, fix it, present the analysis to the developer for approval, then archive everything — diagnostic tests, debug summary, updated index. Every debugging session becomes a reusable asset.
@@ -26,15 +26,15 @@ On activation, check: does this project have asset infrastructure (a conventions
  
 **No (first time)** → Run initialization:
 1. Analyze the project — identify modules, boundaries, core path, config mechanisms, existing conventions
-2. **Identify the end user's interface**: Who is the end user? How do they interact with the system? (Browser? CLI? API? Mobile app?) This determines what "e2e" means for this project. Record this in the conventions document.
-3. **Audit existing tests**: Review all existing tests (including those labeled "e2e"). Classify each as unit, integration, or true e2e based on whether it uses the end user's interface. If tests are misclassified, note the gap — don't assume names are accurate.
+2. **Understand the end user's real experience**: Who is the end user? What do they actually do? What input do they provide? What output do they expect? What would make them say "this works" or "this is broken"? Record the answers in the conventions document — this determines what "e2e" means for this project.
+3. **Audit existing tests against user reality**: Review all existing tests. For each, ask: does this test replicate what the user actually experiences? Tests that shortcut the user's real workflow (e.g., calling APIs when users use a browser, using mock data when users rely on real processing) are integration tests regardless of their label. Note the gaps.
 4. Create an asset directory at the project root. Design the structure based on project needs. What must exist:
    - A place for e2e and diagnostic tests (separated)
    - A place for test run baselines (successful results) and debug summaries (failure investigations), stored separately
    - A place for decision log entries
-   - A conventions document defining: naming rules, decision log criteria, templates, test commands, **and what constitutes e2e for this project**
+   - A conventions document defining: naming rules, decision log criteria, templates, test commands, **and what constitutes e2e for this project (grounded in the user experience answers from step 2)**
    - A master index cataloging all assets for quick lookup
-5. Design the initial e2e test — exercises the core path through the end user's interface, uses a small fixture, verifies output is reasonable (not just non-null), runs fast
+5. Design the initial e2e test — replicates the user's core experience with representative input and real processing, verifies the output is what a user would expect (not just non-null)
 6. Initialize the index with the e2e test entry
  
 The conventions document is the contract for consistency. It must be fixed after initialization — if AI names and organizes assets differently each session, the archive becomes unsearchable.
