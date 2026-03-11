@@ -26,7 +26,7 @@ On activation, check: does this project have asset infrastructure (a conventions
  
 **No (first time)** → Run initialization:
 1. Analyze the project — identify modules, boundaries, core path, config mechanisms, existing conventions
-2. **Understand the end user's real experience**: Who is the end user? What do they actually do? What input do they provide? What output do they expect? What would make them say "this works" or "this is broken"? Record the answers in the conventions document — this determines what "e2e" means for this project.
+2. **Define the end user's real experience**: Who is the end user? What do they actually do, step by step? Write out the concrete workflow — from what input they provide, through what they see and interact with, to what output they expect. What would make them say "this works" or "this is broken"? Record this workflow in the conventions document — this determines what "e2e" means for this project. The e2e test must then be aligned to this workflow step by step.
 3. **Audit existing tests against user reality**: Review all existing tests. For each, ask: does this test replicate what the user actually experiences? Tests that shortcut the user's real workflow (e.g., calling APIs when users use a browser, using mock data when users rely on real processing) are integration tests regardless of their label. Note the gaps.
 4. Create an asset directory at the project root. Design the structure based on project needs. What must exist:
    - A place for e2e and diagnostic tests (separated)

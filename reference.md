@@ -88,7 +88,7 @@ When this methodology is first applied to a project, AI sets up the infrastructu
 Before creating anything, understand the project:
 
 - Identify major modules and their boundaries
-- **Understand the end user's real experience**: Who is the end user? What do they actually do? What input do they provide? What output do they expect? What would make them say "this works" or "this is broken"? This is the foundation for all test design.
+- **Define the end user's real experience**: Who is the end user? What do they actually do, step by step? Write out the concrete workflow — from what input they provide, through what they see and interact with, to what output they expect. What would make them say "this works" or "this is broken"? This workflow is the foundation for all test design. The e2e test must be aligned to it step by step.
 - Identify the core user-facing path (the "happy path" that must always work)
 - Identify configuration mechanisms (env vars, config files, feature flags)
 - Note existing naming patterns and coding conventions
